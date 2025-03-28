@@ -1,4 +1,4 @@
-FROM php:8.1-apache AS builder
+FROM php:8.2-apache AS builder
 
 LABEL vendor="Mautic"
 # LABEL maintainer="Mautic core team <>"
@@ -56,7 +56,7 @@ RUN echo "memory_limit = -1" > /usr/local/etc/php/php.ini
 
 # Define Mautic version by package tag
 # ARG MAUTIC_VERSION=5.x-dev
-ARG MAUTIC_VERSION=5.2.4
+ARG MAUTIC_VERSION=6.0.0
 
 RUN cd /opt && \
     COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_PROCESS_TIMEOUT=10000 composer create-project mautic/recommended-project:${MAUTIC_VERSION} mautic --no-interaction && \
@@ -66,7 +66,7 @@ RUN cd /opt && \
 # Exclude .git folders from vendor
 RUN rm -rf /opt/mautic/vendor/**/.git
 
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
