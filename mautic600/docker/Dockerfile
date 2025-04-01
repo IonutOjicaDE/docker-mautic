@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libxml2-dev \
     libzip-dev \
     libjpeg-dev \
+    libgmp-dev \
+    libreadline-dev \
     libmagickwand-dev \
     libpng-dev \
     libgif-dev \
@@ -46,8 +48,10 @@ RUN curl -L -o /tmp/amqp.tar.gz "https://github.com/php-amqp/php-amqp/archive/re
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache \
-    && docker-php-ext-enable intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
+    && docker-php-ext-install intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache xml \
+    && docker-php-ext-enable intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache xml
+
+    # docker-php-ext-enable intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache xml gmp bz2 readline
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
